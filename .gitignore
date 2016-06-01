@@ -60,3 +60,12 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+
+# ignore configuration file
+gasvaktin.config
+
+# ignore logs folder
+logs/
+
+# .DS_Store
+.DS_Store

@@ -1,0 +1,3 @@
+
+# crontab for gasvaktin automated price updates (UPDATE PATH)
+*/15 * * * * /path/to/repo/gasvaktin-cron/gasvaktin_cron.sh
