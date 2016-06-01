@@ -45,11 +45,11 @@ def main():
 			repo.git.commit('vaktin/gas.json', m=commit_pretty_msg)
 			repo.git.push()
 			slack_msg('Gasvaktin changes available, %s' % (commit_pretty_msg, ))
-			update_gist_timestamp(CONFIG.get('Slackbot', 'prices_changed_timestamp'), timestamp)
+			update_gist_timestamp(CONFIG.get('GistFiles', 'prices_changed_timestamp'), timestamp)
 			print 'Done, exiting ...'
 		else:
 			print 'No changes detected, exiting ...'
-		update_gist_timestamp(CONFIG.get('Slackbot', 'prices_lookup_timestamp'), timestamp)
+		update_gist_timestamp(CONFIG.get('GistFiles', 'prices_lookup_timestamp'), timestamp)
 	except Exception as err:
 		failure_msg = 'auto.prices.update failed (%s)' % (timestamp, )
 		slack_msg(failure_msg)
