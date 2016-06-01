@@ -23,13 +23,13 @@ Open `crontab.txt` and fill in correct absolute path to the repository folder.
 
 Open `gasvaktin_cron.sh` and fill in correct paths to corresponding repositories.
 
-Then run the following:
+Run the following:
 
+	mkdir logs
 	crontab -l > tempcronfile.txt
 	cat crontab.txt >> tempcronfile.txt
 	crontab tempcronfile.txt
 	rm tempcronfile.txt
-	mkdir logs
 
 and you're done.
 
