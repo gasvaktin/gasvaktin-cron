@@ -1,3 +1,4 @@
 GitPython==1.0.2
+python-twitter==3.1
 simplegist==1.0.0
 slackclient==1.0.0

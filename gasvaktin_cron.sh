@@ -5,10 +5,21 @@ gasvaktin_cron_repo_path=/path/to/repo/gasvaktin-cron
 # our lovely python (UPDATE PATH)
 python=/usr/bin/python
 
-# create timestamp
+# create logging folder if needed
+mkdir -p ${gasvaktin_cron_repo_path}/logs
+
+# generate timestamp
 MY_TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
 
+# update prices
 cd ${gasvaktin_repo_path}/scripts
 ${python} pricer.py
 cd ${gasvaktin_cron_repo_path}
 ${python} gasvaktin_updater.py  > logs/run_${MY_TIMESTAMP}.log 2>&1
+
+# update trends
+cd ${gasvaktin_repo_path}/scripts
+${python} trends.py
+cd ${gasvaktin_cron_repo_path}
+${python} gasvaktin_trends_updater.py  > logs/run_${MY_TIMESTAMP}_trends.log 2>&1
+

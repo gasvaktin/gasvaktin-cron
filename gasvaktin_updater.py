@@ -1,34 +1,12 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
-import ConfigParser
+# -*- coding: utf-8 -*--
 import datetime
 
 import git
-import simplegist
-import slackclient
 
-CONFIG = ConfigParser.RawConfigParser()
-CONFIG.read('gasvaktin.config')
+import updater_utils
 
-def slack_msg(message, channel=CONFIG.get('Slackbot', 'default_channel')):
-	'''
-	send message to slack
-	'''
-	sc = slackclient.SlackClient(CONFIG.get('Slackbot', 'token'))
-	if sc.rtm_connect():
-		sc.rtm_send_message(channel, message)
-	else:
-		print 'slack_msg() failed, invalid token? or no network access?'
-
-def update_gist_timestamp(gist_id, timestamp):
-	'''
-	update timestamp gist
-	'''
-	ghGist = simplegist.Simplegist(
-		username=CONFIG.get('GistAccess', 'username'),
-		api_token=CONFIG.get('GistAccess', 'api_token')
-	)
-	ghGist.profile().edit(id=gist_id, content=timestamp)
+CONFIG = updater_utils.load_config('gasvaktin.config')
 
 def main():
 	timestamp = datetime.datetime.now().isoformat()
@@ -44,15 +22,33 @@ def main():
 			repo.git.commit('vaktin/gas.min.json', m=commit_minified_msg)
 			repo.git.commit('vaktin/gas.json', m=commit_pretty_msg)
 			repo.git.push()
-			slack_msg('Gasvaktin changes available, %s' % (commit_pretty_msg, ))
-			update_gist_timestamp(CONFIG.get('GistFiles', 'prices_changed_timestamp'), timestamp)
+			updater_utils.slack_msg(
+				'Gasvaktin changes available, %s' % (commit_pretty_msg, ),
+				CONFIG.get('Slackbot', 'token'),
+				CONFIG.get('Slackbot', 'default_channel')
+			)
+			updater_utils.update_gist_timestamp(
+				timestamp,
+				CONFIG.get('GistAccess', 'username'),
+				CONFIG.get('GistAccess', 'api_token'),
+				CONFIG.get('GistFiles', 'prices_changed_timestamp')
+			)
 			print 'Done, exiting ...'
 		else:
 			print 'No changes detected, exiting ...'
-		update_gist_timestamp(CONFIG.get('GistFiles', 'prices_lookup_timestamp'), timestamp)
+		updater_utils.update_gist_timestamp(
+			timestamp,
+			CONFIG.get('GistAccess', 'username'),
+			CONFIG.get('GistAccess', 'api_token'),
+			CONFIG.get('GistFiles', 'prices_lookup_timestamp')
+		)
 	except Exception as err:
 		failure_msg = 'auto.prices.update failed (%s)' % (timestamp, )
-		slack_msg(failure_msg)
+		updater_utils.slack_msg(
+			failure_msg,
+			CONFIG.get('Slackbot', 'token'),
+			CONFIG.get('Slackbot', 'default_channel')
+		)
 		raise err
 
 if __name__ == '__main__':
