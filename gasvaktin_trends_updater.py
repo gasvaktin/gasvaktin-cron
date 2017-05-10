@@ -25,7 +25,7 @@ def tweet_about_trends_changes():
 	trends_file = os.path.join(
 		CONFIG.get('Gasvaktin', 'repo'),
 		'vaktin',
-		'vaktin/trends.min.json'
+		'trends.min.json'
 	)
 	trends_data = None
 	with open(trends_file, 'rb') as data_file:
@@ -47,7 +47,7 @@ def tweet_about_trends_changes():
 		d_last_price = None
 		d_before_price = None
 		last_change = trends_data[company_key][-1]
-		if timestamp_ten_minutes_ago < last_change[-1]['timestamp']:
+		if timestamp_ten_minutes_ago < last_change['timestamp']:
 			before_change = trends_data[company_key][-2]
 			# check bensin
 			if last_change['mean_bensin95'] != before_change['mean_bensin95']:
@@ -62,12 +62,12 @@ def tweet_about_trends_changes():
 		if bensin_diff is not None and diesel_diff is not None:
 			if bensin_diff == diesel_diff:
 				tweet_msg = (
-					'{company_name}\n'
-					'bensin/diesel, {diff} ISK,'
+					'{company_name},'
+					' bensin/diesel, {diff} ISK,'
 					' {b_before_price} -> {b_last_price},'
 					' {d_before_price} -> {d_last_price}\n'
-					'gasvaktin.is/trends/\n'
-					'#gasvaktin'
+					'#gasvaktin \n'
+					'gasvaktin.is/trends/'
 				).format(
 					company_name=COMPANY_NAMES[company_key],
 					diff=bensin_diff,
@@ -79,13 +79,13 @@ def tweet_about_trends_changes():
 				break
 			else:
 				tweet_msg = (
-					'{company_name}\n'
-					'bensin, {bensin_diff} ISK,'
-					' {b_before_price} -> {b_last_price}\n'
-					'diesel, {diesel_diff} ISK,'
+					'{company_name},'
+					' bensin, {bensin_diff} ISK,'
+					' {b_before_price} -> {b_last_price},'
+					' diesel, {diesel_diff} ISK,'
 					' {d_before_price} -> {d_last_price}\n'
-					'gasvaktin.is/trends/\n'
-					'#gasvaktin'
+					'#gasvaktin \n'
+					'gasvaktin.is/trends/'
 				).format(
 					company_name=COMPANY_NAMES[company_key],
 					bensin_diff=bensin_diff,
@@ -98,11 +98,11 @@ def tweet_about_trends_changes():
 				break
 		elif bensin_diff is not None:
 			tweet_msg = (
-				'{company_name}\n'
-				'bensin, {diff} ISK,'
+				'{company_name},'
+				' bensin, {diff} ISK,'
 				' {before_price} -> {last_price}\n'
-				'gasvaktin.is/trends/\n'
-				'#gasvaktin'
+				'#gasvaktin \n'
+				'gasvaktin.is/trends/'
 			).format(
 				company_name=COMPANY_NAMES[company_key],
 				diff=bensin_diff,
@@ -112,11 +112,11 @@ def tweet_about_trends_changes():
 			break
 		elif diesel_diff is not None:
 			tweet_msg = (
-				'{company_name}\n'
-				'bensin, {diff} ISK,'
+				'{company_name},'
+				' bensin, {diff} ISK,'
 				' {before_price} -> {last_price}\n'
-				'gasvaktin.is/trends/?petrol=diesel\n'
-				'#gasvaktin'
+				'#gasvaktin \n'
+				'gasvaktin.is/trends/?petrol=diesel'
 			).format(
 				company_name=COMPANY_NAMES[company_key],
 				diff=diesel_diff,
