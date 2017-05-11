@@ -64,8 +64,8 @@ def tweet_about_trends_changes():
 				tweet_msg = (
 					'{company_name},'
 					' bensin/diesel, {diff} ISK,'
-					' {b_before_price} -> {b_last_price},'
-					' {d_before_price} -> {d_last_price}\n'
+					' {b_before_price} ➡ {b_last_price},'
+					' {d_before_price} ➡ {d_last_price}\n'
 					'#gasvaktin \n'
 					'gasvaktin.is/trends/'
 				).format(
@@ -81,9 +81,9 @@ def tweet_about_trends_changes():
 				tweet_msg = (
 					'{company_name},'
 					' bensin, {bensin_diff} ISK,'
-					' {b_before_price} -> {b_last_price},'
+					' {b_before_price} ➡ {b_last_price},'
 					' diesel, {diesel_diff} ISK,'
-					' {d_before_price} -> {d_last_price}\n'
+					' {d_before_price} ➡ {d_last_price}\n'
 					'#gasvaktin \n'
 					'gasvaktin.is/trends/'
 				).format(
@@ -100,7 +100,7 @@ def tweet_about_trends_changes():
 			tweet_msg = (
 				'{company_name},'
 				' bensin, {diff} ISK,'
-				' {before_price} -> {last_price}\n'
+				' {before_price} ➡ {last_price}\n'
 				'#gasvaktin \n'
 				'gasvaktin.is/trends/'
 			).format(
@@ -114,7 +114,7 @@ def tweet_about_trends_changes():
 			tweet_msg = (
 				'{company_name},'
 				' bensin, {diff} ISK,'
-				' {before_price} -> {last_price}\n'
+				' {before_price} ➡ {last_price}\n'
 				'#gasvaktin \n'
 				'gasvaktin.is/trends/?petrol=diesel'
 			).format(
