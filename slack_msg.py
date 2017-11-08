@@ -6,8 +6,7 @@ import updater_utils
 
 CONFIG = updater_utils.load_config('gasvaktin.config')
 
-
-def main():
+if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     help_txt = 'The text to send to Slack.'
     parser.add_argument('text', action='store', type=str, help=help_txt)
@@ -17,7 +16,3 @@ def main():
         CONFIG.get('Slackbot', 'token'),
         CONFIG.get('Slackbot', 'default_channel')
     )
-
-
-if __name__ == '__main__':
-    main()
